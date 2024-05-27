@@ -2,6 +2,7 @@
 """route to page"""
 from flask import jsonify
 from api.v1.views import app_views
+from models import storage
 
 
 @app_views.route('/status', methods=['GET'])
@@ -11,7 +12,7 @@ def get_status():
 
 
 @app_views.route('/stats', methods=['GET'], strict_slashes=False)
-def stats():
+def get_stats():
     """Retrieves the number of each objects by type"""
     counts = {
         "amenities": storage.count("Amenity"),
