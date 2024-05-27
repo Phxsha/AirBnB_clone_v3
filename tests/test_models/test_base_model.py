@@ -84,7 +84,6 @@ class TestBaseModel(unittest.TestCase):
         tic = datetime.utcnow()
         inst1 = BaseModel()
         toc = datetime.utcnow()
-        print(f"inst1.created_at: {inst1.created_at}, tic: {tic}, toc: {toc}")
         self.assertTrue(tic <= inst1.created_at <= toc,
                         f"{tic} !<= {inst1.created_at} !<= {toc}")
 
@@ -94,7 +93,6 @@ class TestBaseModel(unittest.TestCase):
         tic = datetime.utcnow()
         inst2 = BaseModel()
         toc = datetime.utcnow()
-        print(f"inst2.created_at: {inst2.created_at}, tic: {tic}, toc: {toc}")
         self.assertTrue(tic <= inst2.created_at <= toc,
                         f"{tic} !<= {inst2.created_at} !<= {toc}")
 
