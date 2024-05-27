@@ -88,7 +88,7 @@ class TestBaseModel(unittest.TestCase):
                         f"{tic} !<= {inst1.created_at} !<= {toc}")
 
         # Ensure a noticeable time difference between instances
-        time.sleep(0.1)
+        time.sleep(1e-4)
 
         tic = datetime.utcnow()
         inst2 = BaseModel()
