@@ -80,23 +80,32 @@ class TestBaseModel(unittest.TestCase):
 
     def test_datetime_attributes(self):
         """Test that two BaseModel instances have different datetime objects
-        and that upon creation have identical updated_at and created_at
-        value."""
+        upon creation have identical updated_at and created_at value."""
         tic = datetime.utcnow()
         inst1 = BaseModel()
         toc = datetime.utcnow()
-        self.assertTrue(tic <= inst1.created_at <= toc, f"{
-            tic} !<= {inst1.created_at} !<= {toc}")
+        print(f"inst1.created_at: {inst1.created_at}, tic: {tic}, toc: {toc}")
+        self.assertTrue(tic <= inst1.created_at <= toc,
+                        f"{tic} !<= {inst1.created_at} !<= {toc}")
+
+        # Ensure a noticeable time difference between instances
         time.sleep(0.1)
+
         tic = datetime.utcnow()
         inst2 = BaseModel()
         toc = datetime.utcnow()
-        self.assertTrue(tic <= inst2.created_at <= toc, f"{
-            tic} !<= {inst2.created_at} !<= {toc}")
-        self.assertEqual(inst1.created_at, inst1.updated_at)
-        self.assertEqual(inst2.created_at, inst2.updated_at)
-        self.assertNotEqual(inst1.created_at, inst2.created_at)
-        self.assertNotEqual(inst1.updated_at, inst2.updated_at)
+        print(f"inst2.created_at: {inst2.created_at}, tic: {tic}, toc: {toc}")
+        self.assertTrue(tic <= inst2.created_at <= toc,
+                        f"{tic} !<= {inst2.created_at} !<= {toc}")
+
+        self.assertEqual(inst1.created_at, inst1.updated_at,
+                         f"{inst1.created_at} != {inst1.updated_at}")
+        self.assertEqual(inst2.created_at, inst2.updated_at,
+                         f"{inst2.created_at} != {inst2.updated_at}")
+        self.assertNotEqual(inst1.created_at, inst2.created_at,
+                            f"{inst1.created_at} == {inst2.created_at}")
+        self.assertNotEqual(inst1.updated_at, inst2.updated_at,
+                            f"{inst1.updated_at} == {inst2.updated_at}")
 
     def test_uuid(self):
         """Test that id is a valid uuid"""
