@@ -84,13 +84,14 @@ def update_place(place_id):
 
 @app_views.route('/places_search', methods=['POST'], strict_slashes=False)
 def places_search():
-    """Retrieves all Place objects depending on the JSON in the body of the request"""
+    """Retrieves all Place objects depending on the JSON in the body"""
     if not request.is_json:
         abort(400, description="Not a JSON")
-    
+
     search_data = request.get_json()
     if not search_data:
-        return jsonify([place.to_dict() for place in storage.all(Place).values()])
+        return jsonify([place.to_dict() for place in storage.all(
+            Place).values()])
 
     states = search_data.get('states', [])
     cities = search_data.get('cities', [])
@@ -115,7 +116,9 @@ def places_search():
         places = list(storage.all(Place).values())
 
     if amenities:
-        amenity_objects = [storage.get(Amenity, amenity_id) for amenity_id in amenities]
-        places = [place for place in places if all(amenity in place.amenities for amenity in amenity_objects)]
+        amenity_objects = [storage.get(
+            Amenity, amenity_id) for amenity_id in amenities]
+        places = [place for place in places if all(
+            amenity in place.amenities for amenity in amenity_objects)]
 
     return jsonify([place.to_dict() for place in places])
