@@ -112,6 +112,10 @@ class TestBaseModel(unittest.TestCase):
 
     def test_to_dict(self):
         """Test conversion of object attributes to dictionary for json"""
+        base_model = BaseModel()
+        base_model.password = "test_password"
+        base_model_dict = base_model.to_dict()
+        self.assertNotIn("password", base_model_dict)
         my_model = BaseModel()
         my_model.name = "Holberton"
         my_model.my_number = 89
@@ -126,6 +130,13 @@ class TestBaseModel(unittest.TestCase):
         self.assertEqual(d['__class__'], 'BaseModel')
         self.assertEqual(d['name'], "Holberton")
         self.assertEqual(d['my_number'], 89)
+
+    def test_to_dict_save_fs(self):
+        """Test to_dict method includes password when save_fs is True"""
+        base_model = BaseModel()
+        base_model.password = "test_password"
+        base_model_dict = base_model.to_dict(save_fs=True)
+        self.assertIn("password", base_model_dict)
 
     def test_to_dict_values(self):
         """test that values in dict returned from to_dict are correct"""

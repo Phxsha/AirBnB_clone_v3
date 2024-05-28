@@ -130,3 +130,30 @@ class TestUser(unittest.TestCase):
         user = User()
         string = "[User] ({}) {}".format(user.id, user.__dict__)
         self.assertEqual(string, str(user))
+
+    def test_password_hashing_on_creation(self):
+        """Test that password is hashed on creation"""
+        user = User(password="test_password")
+        self.assertEqual(user.password, hashlib.md5(
+            "test_password".encode()).hexdigest())
+
+    def test_password_hashing_on_update(self):
+        """Test that password is hashed when updated"""
+        user = User()
+        user.password = "new_password"
+        self.assertEqual(user.password, hashlib.md5(
+            "new_password".encode()).hexdigest())
+
+    def test_to_dict_excludes_password(self):
+        """Test to_dict method excludes password by default"""
+        user = User(password="test_password")
+        user_dict = user.to_dict()
+        self.assertNotIn("password", user_dict)
+
+    def test_to_dict_includes_password_when_save_fs(self):
+        """Test to_dict method includes password when save_fs"""
+        user = User(password="test_password")
+        user_dict = user.to_dict(save_fs=True)
+        self.assertIn("password", user_dict)
+        self.assertEqual(user_dict["password"], hashlib.md5(
+            "test_password".encode()).hexdigest())
